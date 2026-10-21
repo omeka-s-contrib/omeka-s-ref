@@ -8,8 +8,7 @@
 <https://omeka-s-contrib.github.io/omeka-s-ref/ns>
     a owl:Ontology ;
     dcterms:title "Omeka S portable references"@en ;
-    dcterms:description """Terms that identify and link Omeka S resources by a property value
-instead of by internal id, so that records can move between installations."""@en ;
+    dcterms:description "Terms that identify and link Omeka S resources by a property value instead of by internal id, so that records can move between installations."@en ;
     dcterms:license <https://opensource.org/licenses/MIT> ;
     owl:versionInfo "0.1.0" ;
     vann:preferredNamespacePrefix "o-ref" ;
@@ -18,15 +17,11 @@ instead of by internal id, so that records can move between installations."""@en
 o-ref:id
     a rdf:Property ;
     rdfs:label "id"@en ;
-    rdfs:comment """The record's own identity, used to find an existing copy of it. The object is a
-node with exactly one property and one value: the record is the resource that has that value
-for that property."""@en ;
+    rdfs:comment "The record's own identity, used to find an existing copy of it. The object is a node with exactly one property and one value: the record is the resource that has that value for that property."@en ;
     rdfs:isDefinedBy <https://omeka-s-contrib.github.io/omeka-s-ref/ns> .
 
 o-ref:ref
     a rdf:Property ;
     rdfs:label "ref"@en ;
-    rdfs:comment """A link to another record, used where Omeka S writes {"o:id": …}. The object is a
-node with exactly one property and one value: it names the one resource that has that value for
-that property."""@en ;
+    rdfs:comment "A link to another record, used where Omeka S writes {\"o:id\": …}. The object is a node with exactly one property and one value: it names the one resource that has that value for that property."@en ;
     rdfs:isDefinedBy <https://omeka-s-contrib.github.io/omeka-s-ref/ns> .

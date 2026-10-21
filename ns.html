@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>o-ref: Omeka S portable references</title>
+<meta name="description" content="The o-ref namespace: two terms that identify and link Omeka S resources by a property value instead of by internal id.">
+<link rel="alternate" type="text/turtle" href="ns.ttl">
+<link rel="alternate" type="application/ld+json" href="ns.jsonld">
+<link rel="alternate" type="application/rdf+xml" href="ns.rdf">
+<script type="application/ld+json">
+{
+  "@context": {
+    "dcterms": "http://purl.org/dc/terms/",
+    "o-ref": "https://omeka-s-contrib.github.io/omeka-s-ref/ns#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "vann": "http://purl.org/vocab/vann/"
+  },
+  "@graph": [
+    {
+      "@id": "https://omeka-s-contrib.github.io/omeka-s-ref/ns",
+      "@type": "owl:Ontology",
+      "dcterms:description": {
+        "@language": "en",
+        "@value": "Terms that identify and link Omeka S resources by a property value instead of by internal id, so that records can move between installations."
+      },
+      "dcterms:license": {
+        "@id": "https://opensource.org/licenses/MIT"
+      },
+      "dcterms:title": {
+        "@language": "en",
+        "@value": "Omeka S portable references"
+      },
+      "owl:versionInfo": "0.1.0",
+      "vann:preferredNamespacePrefix": "o-ref",
+      "vann:preferredNamespaceUri": "https://omeka-s-contrib.github.io/omeka-s-ref/ns#"
+    },
+    {
+      "@id": "o-ref:id",
+      "@type": "rdf:Property",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "The record's own identity, used to find an existing copy of it. The object is a node with exactly one property and one value: the record is the resource that has that value for that property."
+      },
+      "rdfs:isDefinedBy": {
+        "@id": "https://omeka-s-contrib.github.io/omeka-s-ref/ns"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "id"
+      }
+    },
+    {
+      "@id": "o-ref:ref",
+      "@type": "rdf:Property",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "A link to another record, used where Omeka S writes {\"o:id\": …}. The object is a node with exactly one property and one value: it names the one resource that has that value for that property."
+      },
+      "rdfs:isDefinedBy": {
+        "@id": "https://omeka-s-contrib.github.io/omeka-s-ref/ns"
+      },
+      "rdfs:label": {
+        "@language": "en",
+        "@value": "ref"
+      }
+    }
+  ]
+}
+</script>
+<style>
+:root {
+  --bg: #ffffff; --fg: #1f2328; --muted: #59636e; --line: #d1d9e0;
+  --code-bg: #f6f8fa; --link: #0969da;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #3d444d;
+    --code-bg: #151b23; --link: #4493f8;
+  }
+}
+body {
+  background: var(--bg); color: var(--fg); margin: 0;
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+main { max-width: 46rem; margin: 0 auto; padding: 2rem 16px 4rem; }
+a { color: var(--link); }
+h1 { font-size: 1.8rem; line-height: 1.25; margin-bottom: .25rem; }
+h2 { font-size: 1.3rem; margin-top: 2.5rem; border-bottom: 1px solid var(--line); padding-bottom: .3rem; }
+.lead { color: var(--muted); margin-top: 0; }
+code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9em; }
+code { background: var(--code-bg); padding: .1em .3em; border-radius: 4px; }
+pre { background: var(--code-bg); padding: 1rem; border-radius: 6px; overflow-x: auto; line-height: 1.45; }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }
+th, td { text-align: left; vertical-align: top; padding: .4rem .75rem .4rem 0; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-weight: 600; white-space: nowrap; }
+dt { font-weight: 600; margin-top: 1.5rem; }
+dt code { font-size: 1em; }
+dd { margin: .25rem 0 0 0; }
+.uri { word-break: break-all; }
+</style>
+</head>
+<body>
+<main>
+
+<h1>o-ref: Omeka S portable references</h1>
+<p class="lead">Two terms that identify and link Omeka S resources by a property value instead of by
+internal id.</p>
+
+<table>
+<tr><th>Namespace</th><td class="uri"><code>https://omeka-s-contrib.github.io/omeka-s-ref/ns#</code></td></tr>
+<tr><th>Prefix</th><td><code>o-ref</code></td></tr>
+<tr><th>Version</th><td><span id="version">0.1.0</span></td></tr>
+<tr><th>Formats</th><td><a href="ns.ttl">Turtle</a>, <a href="ns.jsonld">JSON-LD</a>, <a href="ns.rdf">RDF/XML</a></td></tr>
+</table>
+
+<h2 id="why">Why</h2>
+<p>Omeka S links one resource to another by internal id: an item lists its item sets as
+<code>{"o:id": 42}</code>, and a value that points to another item does the same. That id only means
+something on the installation that assigned it. A record exported from one installation and imported
+into another needs a link that survives the move. These terms name the linked resource by one of its
+property values instead, and the importing side looks it up.</p>
+
+<h2 id="terms">Terms</h2>
+<dl>
+<dt id="id"><code>o-ref:id</code></dt>
+<dd>At the top level of a record. The record's own identity, used to find an existing copy of it
+before creating it, so the same record is not imported twice.</dd>
+<dt id="ref"><code>o-ref:ref</code></dt>
+<dd>Where Omeka S writes <code>{"o:id": …}</code>: an entry of <code>o:item_set</code>, or a value
+that links to another resource. A link to another record, resolved to that record's id on
+import.</dd>
+</dl>
+
+<p>Both take an object with exactly one property and one value:</p>
+<pre><code>{"&lt;term&gt;": "&lt;value&gt;"}</code></pre>
+<p>The property is a term of a vocabulary the installation knows, such as
+<code>dcterms:identifier</code>. <code>o-ref:id</code> says “this record is the resource that has this
+value”; <code>o-ref:ref</code> says “link to the one resource that has this value”.</p>
+
+<h2 id="example">Example</h2>
+<p>An item set and an item in it, as written by Omeka-S-Cli's export. The item set identifies itself
+by its <code>dcterms:identifier</code>:</p>
+<pre><code id="example-item-set">{
+    "@context": {
+        "dcterms": "http://purl.org/dc/terms/",
+        "o": "http://omeka.org/s/vocabs/o#",
+        "o-ref": "https://omeka-s-contrib.github.io/omeka-s-ref/ns#"
+    },
+    "@type": "o:ItemSet",
+    "o-ref:id": {"dcterms:identifier": "set-paintings"},
+    "o:title": "Paintings",
+    "dcterms:title": [{"type": "literal", "@value": "Paintings"}],
+    "dcterms:identifier": [{"type": "literal", "@value": "set-paintings"}]
+}</code></pre>
+<p>The item names that item set by the same value, where Omeka S would write its id:</p>
+<pre><code id="example-item">{
+    "@context": {
+        "dcterms": "http://purl.org/dc/terms/",
+        "o": "http://omeka.org/s/vocabs/o#",
+        "o-ref": "https://omeka-s-contrib.github.io/omeka-s-ref/ns#"
+    },
+    "@type": "o:Item",
+    "o-ref:id": {"dcterms:identifier": "obj-1"},
+    "o:title": "Mona Lisa",
+    "o:item_set": [{"o-ref:ref": {"dcterms:identifier": "set-paintings"}}],
+    "dcterms:title": [{"type": "literal", "@value": "Mona Lisa"}],
+    "dcterms:identifier": [{"type": "literal", "@value": "obj-1"}]
+}</code></pre>
+<p>On import, the item set is created first (or found, by its <code>o-ref:id</code>); the item's
+<code>o-ref:ref</code> then resolves to that item set's id on the new installation.</p>
+
+<h2 id="matching">Matching</h2>
+<ul>
+<li><strong>By namespace, not by prefix.</strong> A key is an <code>o-ref</code> term when it expands
+to this namespace through the document's <code>@context</code>. The prefix <code>o-ref</code> is only
+the usual local alias; a document may map another prefix to the same namespace.</li>
+<li><strong>How the value compares.</strong> The value is compared as a string with a value of the
+named property on the record. That value may be a literal (its <code>@value</code>) or a URI (its
+<code>@id</code>). Whether case is ignored is left to the consumer.</li>
+<li><strong>Exactly one match.</strong> A reference that matches no resource, or more than one,
+leaves the link unresolved, and the consumer warns about it.</li>
+<li><strong>Without <code>o-ref:id</code>.</strong> A record without an <code>o-ref:id</code> may be
+matched by its title instead, as the consumer chooses.</li>
+</ul>
+
+<h2 id="consumers">Consumers</h2>
+<ul>
+<li><a href="https://github.com/GhentCDH/Omeka-S-Cli">Omeka-S-Cli</a>: <code>item:export</code>
+writes these terms, <code>item:import</code> resolves them.</li>
+</ul>
+
+<h2 id="stability">Stability</h2>
+<ul>
+<li>The namespace URI never changes. Terms are only added, never removed or redefined.</li>
+<li>Each change bumps the version (<code>owl:versionInfo</code>) and gets a git tag.</li>
+</ul>
+
+<h2 id="source">Source</h2>
+<p><a href="https://github.com/omeka-s-contrib/omeka-s-ref">omeka-s-contrib/omeka-s-ref</a>, under the
+MIT license. <code>ns.ttl</code> is the source of truth; the JSON-LD and RDF/XML are generated from
+it.</p>
+
+</main>
+</body>
+</html>
