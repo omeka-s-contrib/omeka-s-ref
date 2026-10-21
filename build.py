@@ -18,6 +18,7 @@ from rdflib.namespace import RDF
 NS = "https://omeka-s-contrib.github.io/omeka-s-ref/ns#"
 # Only these files are published; everything else in the repository stays out.
 STATIC = ["ns.ttl", "ns.html", "index.html", ".nojekyll"]
+GENERATED = ["ns.jsonld", "ns.rdf"]
 CONTEXT = {
     "o-ref": NS,
     "dcterms": "http://purl.org/dc/terms/",
@@ -81,7 +82,10 @@ def build(src, out):
     if not isomorphic(inline_graph(html), graph):
         sys.exit("The JSON-LD inlined in ns.html differs from ns.ttl")
 
+    # Only a previous build is replaced: a mistyped OUT_DIR (".", the source folder) is left alone.
     if out.exists():
+        if not out.is_dir() or any(p.name not in STATIC + GENERATED for p in out.iterdir()):
+            sys.exit(f"refusing to replace {out}: it holds files the build did not write")
         shutil.rmtree(out)
     out.mkdir(parents=True)
     for name in STATIC:
@@ -91,5 +95,7 @@ def build(src, out):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 2 or any(a.startswith("-") for a in sys.argv[1:]):
+        sys.exit("usage: python build.py [OUT_DIR]")
     root = Path(__file__).resolve().parent
     build(root, sys.argv[1] if len(sys.argv) > 1 else root / "_site")

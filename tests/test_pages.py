@@ -91,3 +91,17 @@ def test_the_examples_expand_to_the_namespace():
 def test_index_links_to_the_namespace_page():
     hrefs = {a.get("href") for t, a in read("index.html").tags if t == "a"}
     assert "ns" in hrefs
+
+
+def test_matching_rules_resolve_the_inner_property_through_the_context():
+    assert "@context" in read("ns.html").text["rule-property"]
+
+
+def test_matching_rules_say_what_an_unmatched_or_ambiguous_id_means():
+    rule = read("ns.html").text["rule-identity"]
+    assert "o-ref:id" in rule
+    assert "more than one" in rule
+
+
+def test_the_example_is_not_presented_as_export_output():
+    assert "as written by" not in (ROOT / "ns.html").read_text(encoding="utf-8")

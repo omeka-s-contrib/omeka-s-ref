@@ -77,3 +77,34 @@ def test_build_fails_on_a_turtle_syntax_error(source, tmp_path):
     (source / "ns.ttl").write_text("this is not turtle")
     with pytest.raises(Exception):
         build.build(source, tmp_path / "_site")
+
+
+def test_build_refuses_to_replace_the_source_folder(source):
+    with pytest.raises(SystemExit, match="refusing"):
+        build.build(source, source)
+    assert (source / "ns.ttl").exists() and (source / "README.md").exists()
+
+
+def test_build_refuses_to_replace_a_folder_with_other_files(source, tmp_path):
+    other = tmp_path / "other"
+    other.mkdir()
+    (other / "keep.txt").write_text("mine")
+    with pytest.raises(SystemExit, match="refusing"):
+        build.build(source, other)
+    assert (other / "keep.txt").exists()
+
+
+def test_build_replaces_a_previous_build(source, tmp_path):
+    out = tmp_path / "_site"
+    build.build(source, out)
+    build.build(source, out)
+    assert (out / "ns.jsonld").exists()
+
+
+def test_an_option_is_not_taken_as_the_output_folder(tmp_path):
+    import subprocess
+    result = subprocess.run([sys.executable, str(ROOT / "build.py"), "--help"],
+                            cwd=tmp_path, capture_output=True, text=True)
+    assert result.returncode != 0
+    assert "usage" in result.stderr.lower()
+    assert not (tmp_path / "--help").exists()

@@ -142,8 +142,8 @@ import.</dd>
 value”; <code>o-ref:ref</code> says “link to the one resource that has this value”.</p>
 
 <h2 id="example">Example</h2>
-<p>An item set and an item in it, as written by Omeka-S-Cli's export. The item set identifies itself
-by its <code>dcterms:identifier</code>:</p>
+<p>An item set and an item in it, adapted from Omeka-S-Cli's documentation examples. The item set
+identifies itself by its <code>dcterms:identifier</code>:</p>
 <pre><code id="example-item-set">{
     "@context": {
         "dcterms": "http://purl.org/dc/terms/",
@@ -175,15 +175,23 @@ by its <code>dcterms:identifier</code>:</p>
 
 <h2 id="matching">Matching</h2>
 <ul>
-<li><strong>By namespace, not by prefix.</strong> A key is an <code>o-ref</code> term when it expands
+<li id="rule-namespace"><strong>By namespace, not by prefix.</strong> A key is an <code>o-ref</code> term when it expands
 to this namespace through the document's <code>@context</code>. The prefix <code>o-ref</code> is only
 the usual local alias; a document may map another prefix to the same namespace.</li>
+<li id="rule-property"><strong>The named property.</strong> The property inside an <code>o-ref</code>
+object is read like any other key of the document: it expands to a property IRI through the
+document's <code>@context</code>, and the consumer looks for the property with that IRI on its
+installation, whatever prefix the installation gives that vocabulary.</li>
 <li><strong>How the value compares.</strong> The value is compared as a string with a value of the
 named property on the record. That value may be a literal (its <code>@value</code>) or a URI (its
 <code>@id</code>). Whether case is ignored is left to the consumer.</li>
-<li><strong>Exactly one match.</strong> A reference that matches no resource, or more than one,
-leaves the link unresolved, and the consumer warns about it.</li>
-<li><strong>Without <code>o-ref:id</code>.</strong> A record without an <code>o-ref:id</code> may be
+<li id="rule-ref"><strong>A reference needs exactly one match.</strong> An <code>o-ref:ref</code>
+that matches no resource, or more than one, leaves the link unresolved, and the consumer warns
+about it.</li>
+<li id="rule-identity"><strong>An identity matches one copy or none.</strong> An <code>o-ref:id</code>
+that matches no resource means the record is new. One that matches more than one resource is
+ambiguous: the consumer does not pick one of them, creates nothing, and warns about it.</li>
+<li id="rule-no-identity"><strong>Without <code>o-ref:id</code>.</strong> A record without an <code>o-ref:id</code> may be
 matched by its title instead, as the consumer chooses.</li>
 </ul>
 
